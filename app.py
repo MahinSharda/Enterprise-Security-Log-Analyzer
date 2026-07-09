@@ -25,6 +25,7 @@ from visualizer import (
     plot_confusion_matrix
 )
 from utils import save_to_csv
+from ai_analyst import generate_threat_analysis
 
 # Set page configuration
 st.set_page_config(
@@ -184,7 +185,39 @@ if st.session_state.data is not None:
             st.subheader("Vault Access Patterns")
             access_pattern_fig = plot_access_patterns(st.session_state.processed_data, st.session_state.anomalies)
             st.plotly_chart(access_pattern_fig, use_container_width=True)
-        
+            # --- NAYA AI SECTION YAHAN SE SHURU ---
+            st.markdown("---")
+            st.subheader("🤖 Deep AI Threat Analysis")
+            st.write("Select a suspicious event from the data above to generate an instant AI security report.")
+            
+            # Sirf anomalies ko filter kar rahe hain AI analysis ke liye
+            anomalies_only = st.session_state.anomalies[st.session_state.anomalies['is_anomaly'] == 1]
+            
+            if len(anomalies_only) > 0:
+                # Ek unique dropdown specifically Tab 1 ke liye
+                selected_idx_tab1 = st.selectbox(
+                    "Select an event to investigate:",
+                    range(len(anomalies_only)),
+                    format_func=lambda i: f"{anomalies_only.iloc[i]['timestamp']} - User: {anomalies_only.iloc[i]['user_id']}",
+                    key="tab1_ai_dropdown"
+                )
+                
+                selected_event_tab1 = anomalies_only.iloc[selected_idx_tab1]
+                
+                # Seedha Button! Ab redirect hone par bhi user Tab 1 par hi rahega.
+                if st.button("Generate AI Security Report", key="tab1_ai_button"):
+                    with st.spinner("Gemini is analyzing the threat landscape..."):
+                        ai_summary = generate_threat_analysis(
+                            user_id=selected_event_tab1['user_id'],
+                            action=selected_event_tab1['action'],
+                            resource=selected_event_tab1['resource'],
+                            location=selected_event_tab1['location'],
+                            time=str(selected_event_tab1['timestamp'])
+                        )
+                        st.success(ai_summary)
+            else:
+                st.info("No anomalies detected yet. Adjust sensitivity and train the detector.")
+            # --- NAYA AI SECTION YAHAN KHATAM ---
         # Tab 2: Anomalies Timeline
         with tab2:
             st.subheader("Anomalies Timeline")
@@ -341,6 +374,7 @@ if st.session_state.data is not None:
                             st.info("Complex pattern detected by the model, but no simple explanation available.")
                     else:
                         st.info("Not enough data for this user to establish typical patterns.")
+
             else:
                 st.info("No anomalies detected with current settings.")
 
