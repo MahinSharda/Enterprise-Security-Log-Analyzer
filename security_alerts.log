@@ -1,0 +1,10 @@
+2026-07-08 22:42:50,850 - ALERT: Suspicious Activity - User: user_003, Action: view, Resource: encryption_keys.dat
+2026-07-08 22:42:50,851 - ALERT: Suspicious Activity - User: user_009, Action: read, Resource: source_code.tar.gz
+2026-07-08 22:42:50,852 - ALERT: Suspicious Activity - User: user_005, Action: upload, Resource: system_backup.zip
+2026-07-08 22:42:50,852 - ALERT: Suspicious Activity - User: user_005, Action: upload, Resource: trade_secrets.doc
+2026-07-08 22:42:50,852 - ALERT: Suspicious Activity - User: user_007, Action: write, Resource: financial_report.pdf
+2026-07-09 11:52:46,335 - ALERT: Suspicious Activity - User: user_001, Action: view, Resource: encryption_keys.dat
+2026-07-09 11:52:46,335 - ALERT: Suspicious Activity - User: user_008, Action: read, Resource: financial_report.pdf
+2026-07-09 11:52:46,336 - ALERT: Suspicious Activity - User: user_005, Action: delete, Resource: strategic_plan.pptx
+2026-07-09 11:52:46,337 - ALERT: Suspicious Activity - User: user_010, Action: read, Resource: source_code.tar.gz
+2026-07-09 11:52:46,337 - ALERT: Suspicious Activity - User: user_004, Action: download, Resource: contracts.pdf
